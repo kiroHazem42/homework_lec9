@@ -89,9 +89,25 @@ void GPIO_Set_Pin(GPIO_Struct *Port, GPIO_Pin pin, uint8_t State)
 void GPIO_TogglePin(GPIO_Struct *Port, GPIO_Pin pin)
 {
 	//write your code here to toggle a GPIO pin
+	port->GPIO_ODR=(GPIO_ODR^ pin);
 }
 
 void GPIO_Lock_Pin(GPIO_Struct *Port, GPIO_Pin pin, uint8_t Lock_Unlock)
 {
 	//write your code here to lock/unlock a GPIO Pin
+	Lock_Unlock =(port->odr&pin);
+	if(Lock_Unlock>0){
+		port->GPIO_IDR |=pin;
+		port->GPIO_ODR |=pin;
+		port->GPIO_BSRR |=pin;
+		port->GPIO_BRR |=pin;
+		};
+	else
+	{
+	port->GPIO_IDR &=pin;
+	port->GPIO_ODR &=pin;
+	port->GPIO_BSRR&=pin;
+	port->GPIO_BRR &=pin;
+
+	};
 }
